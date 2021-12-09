@@ -1,4 +1,5 @@
 const express = require('express');
+const PORT = process.env.PORT || 3001;
 const app = express();
 const path = require('path');
 const fs = require('fs');
@@ -24,28 +25,27 @@ app.use(express.static('public'));
 
 // API GET request  
 app.get('/api/notes',(req,res) =>{
+    // read db.json
+    // return saved notes 
 res.send('Hello!');
 
 });
 
 // API POST request
 app.post('/api/notes',(req,res)=>{
+    // recieve new note and save on req body
 const note = req.body;
  const noteId = uuid();
  note.id = noteId;
  noteArry =[];
  noteArry.push(note);
 
-
-
-
+// add to db.json
 fs.writeFileSync(
     path.join(__dirname,'./db/db.json'),
     JSON.stringify({db:noteArry},null,2)
 );
-
-
-
+//return new note to clinet 
 
 
 console.log(req.body);
@@ -57,6 +57,6 @@ console.log(req.body);
 
 
 // sever 
-app.listen(3001,()=>{
-    console.log(`API server now on port 3001!`);
+app.listen(PORT,()=>{
+    console.log(`API server now on port ${PORT}!`);
 })
