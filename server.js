@@ -26,13 +26,13 @@ app.use(express.static('public'));
 // API GET request  
 app.get('/api/notes',(req,res) =>{
     // read db.json
-    // return saved notes 
-    let data = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    
+    note = fs.readFileSync("./db/db.json", "utf8");
+    note = JSON.parse(note);  
         
-        console.log("\nGET request - Returning notes data: " + JSON.stringify(data));
         
-        // Send read data to response of 'GET' request
-        res.json(data);
+        // return saved notes 
+        res.json(note);
 
 
 });
