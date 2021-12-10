@@ -27,7 +27,13 @@ app.use(express.static('public'));
 app.get('/api/notes',(req,res) =>{
     // read db.json
     // return saved notes 
-res.send('Hello!');
+    let data = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+        
+        console.log("\nGET request - Returning notes data: " + JSON.stringify(data));
+        
+        // Send read data to response of 'GET' request
+        res.json(data);
+
 
 });
 
@@ -50,7 +56,7 @@ fs.writeFileSync(
 
 console.log(req.body);
  res.json(req.body);
-
+ return note;
 });
 
 
