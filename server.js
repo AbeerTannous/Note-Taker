@@ -51,7 +51,7 @@ app.post('/api/notes',(req,res)=>{
       console.error(err);
     } else {
       // Convert string into JSON object
-         const parsedNote = [JSON.parse(data)];
+         const parsedNote = JSON.parse(data);
         
 
          parsedNote.push(note);
