@@ -6,7 +6,7 @@ const fs = require('fs');
 const uuid = require('./helpers/uuid');
 
 // route for index HTML
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     
     res.sendFile(path.join(__dirname + '/public/index.html'));
   });
@@ -40,23 +40,33 @@ app.get('/api/notes',(req,res) =>{
 // API POST request
 app.post('/api/notes',(req,res)=>{
     // recieve new note and save on req body
-const note = req.body;
- const noteId = uuid();
- note.id = noteId;
- noteArry =[];
- noteArry.push(note);
+    const note = req.body;
+    const noteId = uuid();
+    note.id = noteId;
+    // noteArry =[];
 
-// add to db.json
-fs.writeFileSync(
+    // read exciting note
+ fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      // Convert string into JSON object
+         const parsedNote = [JSON.parse(data)];
+        
+
+         parsedNote.push(note);
+
+      // add to db.json
+    fs.writeFileSync(
     path.join(__dirname,'./db/db.json'),
-    JSON.stringify({db:noteArry},null,2)
-);
-//return new note to clinet 
-
-
-console.log(req.body);
- res.json(req.body);
- return note;
+    JSON.stringify(parsedNote,null,2)
+    );
+   //return new note to clinet 
+    }
+  });
+  console.log(req.body);
+  res.json(req.body);
+  return note;
 });
 
 
